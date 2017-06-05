@@ -1,5 +1,5 @@
 [x] Handle the input for the players' nicknames.
-[ ] Check the i, j inputs for integers in the gameloop.
-[ ] Change the gameloop's prompts to call the player by the name, not by the number.
-[ ] Add a clear_board function for the GameBoard class.
+[x] Check the i, j inputs for integers in the gameloop.
+[x] Change the gameloop's prompts to call the player by the name, not by the number.
+[x] Add a clear_board function for the GameBoard class.
 [ ] Add a way to the player to retract his (row, col) choice.

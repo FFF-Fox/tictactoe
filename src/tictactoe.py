@@ -130,14 +130,45 @@ class TicTacToe:
             self.board.print_board()
             print()
 
-            i = j = -1      # init i,j to an invalid value.
+            # Check input for each turn.
+
+            # Row checks.
+
+            i = j = -1  # init i,j to an invalid value.
             while not self.board.markCell(self.players[p].mark, i, j):
-                i = int( input("Player {} - Please enter the row number: ".format(p+1)) )
-                while i > 3 or i < 0:
-                    i = int( input("Player {} - Please enter a correct row number [0,2]: ".format(p+1)) )
-                j = int ( input("Player {} - Please enter the column number: ".format(p+1)) )
-                while j > 3 or j < 0:
-                    j = int ( input("Player {} - Please enter a correct column number [0,2]: ".format(p+1)) )
+                i_set = False   # used to check whether i is set correctly.
+                while not i_set:
+                    i = input("{} - Please enter the row number: ".format(self.players[p].name))
+                    # i.isdigit()) or i > 3 or i < 0
+                    if i.isdigit():
+                        # check if it is within range.
+                        i = int(i)
+                        if 0 <= i <= 2:
+                            i_set = True
+                        else:
+                            print("The choice you have entered is out of bounds.)
+                            print("Please enter an integer from 0 to 2.")
+                    else:
+                        # i is not a digit.
+                        print("Please enter an integer from 0 to 2.")
+
+                # Column checks.
+
+                j_set = False   # used to check whether i is set correctly.
+                while not j_set:
+                    j = input("{} - Please enter the column number: ".format(self.players[p].name))
+                    # i.isdigit()) or i > 3 or i < 0
+                    if j.isdigit():
+                        # check if it is within range.
+                        j = int(j)
+                        if 0 <= j <= 2:
+                            j_set = True
+                        else:
+                            print("The choice you have entered is out of bounds.)
+                            print("Please enter an integer from 0 to 2.")
+                    else:
+                        # i is not a digit.
+                        print("Please enter an integer from 0 to 2.")
 
             print()
             print("{} placed in cell: ({},{})".format(self.players[p].mark, i, j))
@@ -240,10 +271,12 @@ def test_checkWinner():
 if __name__ == '__main__':
 
     game = TicTacToe()
-    game.test_getPlayerInfo()
 
+    # ---------- Tests ---------- #
 
-    # game.gameloop()
+    # game.test_getPlayerInfo()
+
+    game.gameloop()
 
 
     # p1 = Player("awd",'D')
@@ -254,3 +287,10 @@ if __name__ == '__main__':
     #
     # print (p1.name)
     # print(p1.mark)
+
+    # print("2 :","2".isdigit())
+    # print("awd :","awd".isdigit())
+    # print("-2 :","-2".isdigit())
+    # print("22 :","22".isdigit())
+    # print("0 :","0".isdigit())
+    # print("2.2 :","2.2".isdigit())
