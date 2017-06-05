@@ -139,14 +139,13 @@ class TicTacToe:
                 i_set = False   # used to check whether i is set correctly.
                 while not i_set:
                     i = input("{} - Please enter the row number: ".format(self.players[p].name))
-                    # i.isdigit()) or i > 3 or i < 0
                     if i.isdigit():
-                        # check if it is within range.
                         i = int(i)
+                        # check if it is within range.
                         if 0 <= i <= 2:
                             i_set = True
                         else:
-                            print("The choice you have entered is out of bounds.)
+                            print("The choice you have entered is out of bounds.")
                             print("Please enter an integer from 0 to 2.")
                     else:
                         # i is not a digit.
@@ -154,20 +153,19 @@ class TicTacToe:
 
                 # Column checks.
 
-                j_set = False   # used to check whether i is set correctly.
+                j_set = False   # used to check whether j is set correctly.
                 while not j_set:
                     j = input("{} - Please enter the column number: ".format(self.players[p].name))
-                    # i.isdigit()) or i > 3 or i < 0
                     if j.isdigit():
-                        # check if it is within range.
                         j = int(j)
+                        # check if it is within range.
                         if 0 <= j <= 2:
                             j_set = True
                         else:
-                            print("The choice you have entered is out of bounds.)
+                            print("The choice you have entered is out of bounds.")
                             print("Please enter an integer from 0 to 2.")
                     else:
-                        # i is not a digit.
+                        # j is not a digit.
                         print("Please enter an integer from 0 to 2.")
 
             print()
@@ -184,9 +182,9 @@ class TicTacToe:
         if winner == "Tie":
             print("The game was a tie!")
         elif self.players[0].mark == winner:
-            print("Congratulations player 1. You are the winner!")
+            print("Congratulations {}. You are the winner!".format(self.players[0].name))
         else:
-            print("Congratulations player 2. You are the winner!")
+            print("Congratulations {}. You are the winner!".format(self.players[1].name))
 
     def getPlayerInfo(self):
         """ Get both the players' names. The names are striped of whitespaces.
