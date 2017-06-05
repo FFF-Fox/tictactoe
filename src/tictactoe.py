@@ -48,7 +48,7 @@ class GameBoard:
         """ Checks the board for winner or tie.
             If there is a winner, returns the winner's mark.
             If there is a tie, returns "Tie".
-            If none of these end conditions is met, returns false.
+            If none of these end conditions is met, returns None.
         """
 
         # Check horizontal and vertical lines.
@@ -69,7 +69,7 @@ class GameBoard:
             return "Tie"
 
         # No winner yet.
-        return False
+        return None
 
 
 class Player:
@@ -156,8 +156,8 @@ class TicTacToe:
 
         # The main loop.
 
-        winner = False
-        while not winner:
+        winner = None
+        while winner is None:
             print()
             self.board.print_board()
             print()
@@ -295,9 +295,9 @@ if __name__ == '__main__':
     # ---------- Tests ---------- #
 
     # test_getPlayerInfo()
-    test_coinFlip()
+    # test_coinFlip()
 
-    # game.gameloop()
+    game.gameloop()
 
 
     # p1 = Player("awd",'D')
