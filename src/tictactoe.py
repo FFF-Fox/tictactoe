@@ -1,8 +1,9 @@
 from random import randint
+import string
 
 
 class GameBoard:
-    """ This is a class representing a tic-tac-toe gameboard.
+    """ This is the tic-tac-toe gameboard.
     Parameters:
         board: The gameboard itself. Starting the indexing with 0,0 from the top
             left corner.
@@ -10,19 +11,29 @@ class GameBoard:
         print_board: Prints the current state of the board in a beautiful format.
         markCell: This method is used to mark a free cell. If the cell is taken,
             then the method fails.
+        clear_board: Clears the board from any marks.
     """
 
     def __init__(self):
-        self.board = [[" " for i in range(3)] for j in range(3)]
+        self.board = [[" " for i in range(3)] for j in range(3)] # " " represents the empty cell
         self.empty_cells = 9
 
     def print_board(self):
+        print("   {}   {}   {} ".format(0, 1, 2))
         for i, row in enumerate(self.board):
-            print(" {} | {} | {} ".format(row[0], row[1], row[2]))
+            print("{}  {} | {} | {} ".format((i), row[0], row[1], row[2]))
             if i != 2:
-                print("-"*11)
+                print("  "+"-"*11) # Uses "  " to align with the board.
 
     def markCell(self, mark, i, j):
+        """ Mark the cell (i,j) with mark. Returns true/false whether the
+                marking was succesful.
+
+            Parameters:
+                mark: String.
+                i: int. The board's row number.
+                j: int. The board's col number.
+        """
         if 0 <= i < len(self.board) and 0 <= j < len(self.board) and self.empty_cells > 0:
             if self.board[i][j] != " ":
                 return False
@@ -37,7 +48,7 @@ class GameBoard:
         """ Checks the board for winner or tie.
             If there is a winner, returns the winner's mark.
             If there is a tie, returns "Tie".
-            If the game continues, returns false.
+            If none of these end conditions is met, returns false.
         """
 
         # Check horizontal and vertical lines.
@@ -53,7 +64,7 @@ class GameBoard:
         elif self.board[0][2] != " " and self.board[0][2] == self.board[1][1] == self.board[2][0]:
             return self.board[0][2]
 
-        # Check if we have a tie.
+        # Check if there is a tie.
         if self.empty_cells == 0:
             return "Tie"
 
@@ -62,6 +73,12 @@ class GameBoard:
 
 
 class Player:
+    """ A class representing the player in the tic-tac-toe game.
+    Attributes:
+        name: String. The nickname of the player. Single word is allowed.
+        mark: String. The mark eg.:('x' or 'o') of this player. Should be a
+            single character in length. Whitespace is not allowed.
+    """
     def __init__(self, name="Unnamed", mark="X"):
         self.set_name(name)
         self.set_mark(mark)
@@ -91,9 +108,21 @@ class TicTacToe:
         self.board = GameBoard()
 
     def gameloop(self):
-        """ TODO: Check inputs for integers. """
+        """ The main game loop. Controls the flow of the game.
+                1. Gets the players names.
+                2. Flips a coin to decide which player goes first.
+                3. On each turn check whether there is a winner.
+                    If there is not, show the board and prompt the player to
+                    enter the row and col numbers of the spot that they want
+                    marked.
+        """
+
+        # Game initialization.
+
         self.getPlayerInfo()
-        p = self.coinFlip() # Flip coin for who plays first
+        p = self.coinFlip()     # Flip coin to decide who plays first.
+
+        # The main loop.
 
         winner = False
         while not winner:
@@ -101,7 +130,7 @@ class TicTacToe:
             self.board.print_board()
             print()
 
-            i = j = -1
+            i = j = -1      # init i,j to an invalid value.
             while not self.board.markCell(self.players[p].mark, i, j):
                 i = int( input("Player {} - Please enter the row number: ".format(p+1)) )
                 while i > 3 or i < 0:
@@ -111,11 +140,13 @@ class TicTacToe:
                     j = int ( input("Player {} - Please enter a correct column number [0,2]: ".format(p+1)) )
 
             print()
-            print("{} in cell: ({},{})".format(self.players[p].mark, i, j))
-            p = (p + 1) % 2 # change to next player
+            print("{} placed in cell: ({},{})".format(self.players[p].mark, i, j))
+
+            p = (p + 1) % 2     # Change to next player.
             winner = self.board.checkWinner()
 
         # Game ended.
+
         print()
         self.board.print_board()
 
@@ -127,13 +158,27 @@ class TicTacToe:
             print("Congratulations player 2. You are the winner!")
 
     def getPlayerInfo(self):
+        """ Get both the players' names. The names are striped of whitespaces.
+            The two players are not allowed to have the same names, an empty
+            name or names containing punctuation.
+        """
+
+        # Add whitespace to the invalid chars.
+        invalidChars = set(string.punctuation + " ")
+
+        # Player 1
+
         name = input("Player 1 please enter your name: ").strip(' \t\n\r')
-        while name == "":
+        while name == "" or any(char in invalidChars for char in name):
             name = input("Player 1 please enter a valid name: ").strip(' \t\n\r')
         self.players[0].set_name(name)
 
+        # Player 2
+
         name = input("Player 2 please enter your name: ").strip(' \t\n\r')
-        while name == "" or name == self.players[0].name:
+        while (name == ""
+              or name == self.players[0].name
+              or any(char in invalidChars for char in name)):
             if name == self.players[0].name:
                 print("Your name is the same as player 1. Please enter a different name.")
             name = input("Player 2 please enter a valid name: ").strip(' \t\n\r')
@@ -155,7 +200,6 @@ class TicTacToe:
             print(self.coinFlip())
 
 
-
 def test_markCell():
     board = GameBoard()
     if board.markCell("X", 0, 0):
@@ -170,7 +214,6 @@ def test_markCell():
     if not board.markCell("O", 5, 0):
         board.print_board()
         print()
-
 
 def test_checkWinner():
     board = [GameBoard() for i in range(6)]
@@ -197,8 +240,12 @@ def test_checkWinner():
 if __name__ == '__main__':
 
     game = TicTacToe()
-    # game.test_getPlayerInfo()
-    game.gameloop()
+    game.test_getPlayerInfo()
+
+
+    # game.gameloop()
+
+
     # p1 = Player("awd",'D')
     # players = [p1, Player(name="ed",mark="O")]
     # for i in range(2):
