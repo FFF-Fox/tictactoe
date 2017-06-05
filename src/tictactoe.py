@@ -107,6 +107,38 @@ class TicTacToe:
         self.players = [Player(mark="X"), Player(mark="O")]
         self.board = GameBoard()
 
+    def getPlayerInfo(self):
+        """ Get both the players' names. The names are striped of whitespaces.
+            The two players are not allowed to have the same names, an empty
+            name or names containing punctuation.
+        """
+
+        # Add whitespace to the invalid chars.
+        invalidChars = set(string.punctuation + " ")
+
+        # Player 1
+
+        name = input("Player 1 please enter your name: ").strip(' \t\n\r')
+        while name == "" or any(char in invalidChars for char in name):
+            name = input("Player 1 please enter a valid name: ").strip(' \t\n\r')
+        self.players[0].set_name(name)
+
+        # Player 2
+
+        name = input("Player 2 please enter your name: ").strip(' \t\n\r')
+        while (name == ""
+              or name == self.players[0].name
+              or any(char in invalidChars for char in name)):
+            if name == self.players[0].name:
+                print("Your name is the same as player 1. Please enter a different name.")
+            name = input("Player 2 please enter a valid name: ").strip(' \t\n\r')
+        self.players[1].set_name(name)
+
+    def coinFlip(self):
+        """ Will be used in initialization to check who will play first. """
+        coin = randint(0,1)
+        return coin
+
     def gameloop(self):
         """ The main game loop. Controls the flow of the game.
                 1. Gets the players names.
@@ -186,48 +218,29 @@ class TicTacToe:
         else:
             print("Congratulations {}. You are the winner!".format(self.players[1].name))
 
-    def getPlayerInfo(self):
-        """ Get both the players' names. The names are striped of whitespaces.
-            The two players are not allowed to have the same names, an empty
-            name or names containing punctuation.
-        """
 
-        # Add whitespace to the invalid chars.
-        invalidChars = set(string.punctuation + " ")
+# Testing Functions
 
-        # Player 1
+# TicTacToe tests.
 
-        name = input("Player 1 please enter your name: ").strip(' \t\n\r')
-        while name == "" or any(char in invalidChars for char in name):
-            name = input("Player 1 please enter a valid name: ").strip(' \t\n\r')
-        self.players[0].set_name(name)
+def test_getPlayerInfo():
+    game = TicTacToe()
+    game.getPlayerInfo()
 
-        # Player 2
+    # Maybe use assert statements?
+    print("Player 1:", game.players[0].name)
+    print("Player 2:", game.players[1].name)
 
-        name = input("Player 2 please enter your name: ").strip(' \t\n\r')
-        while (name == ""
-              or name == self.players[0].name
-              or any(char in invalidChars for char in name)):
-            if name == self.players[0].name:
-                print("Your name is the same as player 1. Please enter a different name.")
-            name = input("Player 2 please enter a valid name: ").strip(' \t\n\r')
-        self.players[1].set_name(name)
+def test_coinFlip():
+    game = TicTacToe()
+    for i in range(10):
+        print(game.coinFlip())
 
-    def coinFlip(self):
-        """ Will be used in initialization to check who will play first. """
-        coin = randint(0,1)
-        return coin
+def test_gameloop():
+    # Need to find a proper test for this function.
+    pass
 
-    # Testing purposes
-    def test_getPlayerInfo(self):
-        self.getPlayerInfo()
-        print("Player 1:", self.players[0].name)
-        print("Player 2:", self.players[1].name)
-
-    def test_coinFlip(self):
-        for i in range(10):
-            print(self.coinFlip())
-
+# GameBoard tests.
 
 def test_markCell():
     board = GameBoard()
@@ -264,6 +277,15 @@ def test_checkWinner():
         b.print_board()
         print(b.checkWinner())
 
+# Player tests.
+
+def test_set_name():
+    # Need to find some tests for this function.
+    pass
+
+def test_set_mark():
+    # Need to find some tests for this function.
+    pass
 
 
 if __name__ == '__main__':
@@ -272,9 +294,10 @@ if __name__ == '__main__':
 
     # ---------- Tests ---------- #
 
-    # game.test_getPlayerInfo()
+    # test_getPlayerInfo()
+    test_coinFlip()
 
-    game.gameloop()
+    # game.gameloop()
 
 
     # p1 = Player("awd",'D')

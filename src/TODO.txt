@@ -5,3 +5,5 @@
 
 [ ] Add a way to the player to retract his (row, col) choice.
     - Maybe, take the input as a i,j pair somehow.
+
+[ ] Fiddle with the test functions.
