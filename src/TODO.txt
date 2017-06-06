@@ -7,3 +7,5 @@
     - Maybe, take the input as a i,j pair somehow.
 
 [ ] Fiddle with the test functions.
+[ ] Make the checks for the row,col in the gameloop with try/except, like in
+  ( https://testing.googleblog.com/ )
