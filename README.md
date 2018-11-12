@@ -3,5 +3,3 @@
 ## A simple tic-tac-toe game for two players.
 * Two player game
 * Is played in a single terminal
-
-### Work in progress.
